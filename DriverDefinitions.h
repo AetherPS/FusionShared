@@ -4,10 +4,6 @@
 extern "C" {
 #endif
 
-#if defined(KERNELDRIVER)
-#include <sys/ioccom.h>
-#else
-
 /*
  * Ioctl's have the command encoded in the lower word, and the size of
  * any in or out parameters in the upper word.  The high 3 bits of the
@@ -18,6 +14,7 @@ extern "C" {
 #define	IOCPARM_LEN(x)	(((x) >> 16) & IOCPARM_MASK)
 #define	IOCBASECMD(x)	((x) & ~(IOCPARM_MASK << 16))
 #define	IOCGROUP(x)	(((x) >> 8) & 0xff)
+#define IOCTL_NUM(cmd) ((cmd) & 0xFF) // Extracting the lower 8 bits
 
 #define	IOCPARM_MAX	(1 << IOCPARM_SHIFT) /* max size of ioctl */
 #define	IOC_VOID	0x20000000	/* no parameters */
@@ -34,8 +31,6 @@ extern "C" {
 #define	_IOW(g,n,t)	_IOC(IOC_IN,	(g), (n), sizeof(t))
  /* this should be _IORW, but stdio got there first */
 #define	_IOWR(g,n,t)	_IOC(IOC_INOUT,	(g), (n), sizeof(t))
-
-#endif
 
 #if defined(__cplusplus)
 };

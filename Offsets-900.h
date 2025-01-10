@@ -11,6 +11,7 @@
 #define addr_copyin								0x002716A0
 #define addr_copyout							0x002715B0
 #define addr_DirectMemoryHook					0x11D250
+#define addr_fuse_loader						0x0490720
 
 /* STD Lib */
 #define addr_M_TEMP                             0x015621E0
@@ -190,5 +191,7 @@
 /* ShellUI Patches */
 #define sceKernelGetDebugMenuModeForRcmgr		0x0001D1C0
 #define sceKernelGetUtokenStoreModeForRcmgr		0x0001D520
+
+#define addr_devact_onioctl_hook				0x6397A0
 
 #endif
