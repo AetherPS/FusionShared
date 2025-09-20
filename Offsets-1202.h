@@ -115,6 +115,14 @@
 /* Library Replacement */
 #define addr_load_prx					0x003B9C80
 
+/* TTY Redirector */
+#define addr_cloneuio					0x0
+#define addr_console_write				0x0
+#define addr_deci_tty_write				0x0
+#define addr_M_IOV						0x0
+#define addr_console_cdev				0x0
+#define addr_DeciTTYWriteHook			0x0
+
 /* ShellCore Patches */
 #define addr_sceKernelIsGenuineCEX1		0x0016F5A4
 #define addr_sceKernelIsGenuineCEX2		0x00873754

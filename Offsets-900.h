@@ -113,7 +113,15 @@
 #define addr_SceSblKeymgrInvalidateKeySxXlockHook			0x0062084D
 
 /* Library Replacement */
-#define addr_load_prx					0x021DF60
+#define addr_load_prx					0x0021DF60
+
+/* TTY Redirector */
+#define addr_cloneuio					0x0044E7E0
+#define addr_console_write				0x002D6EB0
+#define addr_deci_tty_write				0x0048CDE0
+#define addr_M_IOV						0x01A792C0
+#define addr_console_cdev				0x021F1128
+#define addr_DeciTTYWriteHook			0x01A7ED98
 
 /* ShellCore Patches */
 #define addr_sceKernelIsGenuineCEX1		0x0016EAA4
