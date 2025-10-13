@@ -21,6 +21,7 @@
 #define addr_dipsw_onioctl_hook					0x00656490
 #define addr_trapHook                           0x0
 #define addr_trap_fatalHook                     0x002DF710
+#define addr_QAFlags							0x02216850
 
 /* STD Lib */
 #define addr_M_TEMP                             0x015621E0

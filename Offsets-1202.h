@@ -10,7 +10,7 @@
 #define addr_copyout							0x002BD580
 #define addr_copyin								0x002BD670
 #define addr_kern_open                          0x00343570
-#define addr_kern_mkdir                         0x00344450
+#define addr_kern_mkdir                         0x003486B0
 #define addr_kernel_map                         0x022D1D50
 #define addr_kmem_alloc                         0x004659E0
 #define addr_kmem_free                          0x00465BB0
@@ -21,6 +21,7 @@
 #define addr_dipsw_onioctl_hook					0x00655940
 #define addr_trapHook                           0x0
 #define addr_trap_fatalHook                     0x0
+#define addr_QAFlags							0x021CC5D0
 
 /* STD Lib */
 #define addr_M_TEMP                             0x01520D00
@@ -116,12 +117,12 @@
 #define addr_load_prx					0x003B9C80
 
 /* TTY Redirector */
-#define addr_cloneuio					0x0
-#define addr_console_write				0x0
-#define addr_deci_tty_write				0x0
-#define addr_M_IOV						0x0
-#define addr_console_cdev				0x0
-#define addr_DeciTTYWriteHook			0x0
+#define addr_cloneuio					0x0036CC80
+#define addr_console_write				0x0046F990
+#define addr_deci_tty_write				0x0048C4E0
+#define addr_M_IOV						0x01A4A230
+#define addr_console_cdev				0x022D1F30
+#define addr_DeciTTYWriteHook			0x01A7EDD8
 
 /* ShellCore Patches */
 #define addr_sceKernelIsGenuineCEX1		0x0016F5A4
