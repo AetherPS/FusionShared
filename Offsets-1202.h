@@ -1,6 +1,6 @@
 #pragma once
 
-#if defined(VERSION_1202)
+#if SOFTWARE_VERSION == 1202
 
 /* Util */
 #define addr_Xfast_syscall		                0x000001C0
