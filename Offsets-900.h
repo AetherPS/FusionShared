@@ -19,6 +19,7 @@
 #define addr_DirectMemoryHook					0x0011D250
 #define addr_devact_onioctl_hook				0x006397A0
 #define addr_dipsw_onioctl_hook					0x00656490
+#define addr_dmamini_initialize_ioctl			0x005D1EC0
 #define addr_trapHook                           0x0
 #define addr_trap_fatalHook                     0x002DF710
 #define addr_QAFlags							0x02216850
@@ -181,5 +182,7 @@
 #define patch_AllowSLDebugger	0x00317D30
 #define patch_AllowULDebugger	0x00318030
 #define patch_IsSoftwagner		0x00318110
+#define patch_dmamini0			0x005D1EDB
+#define patch_dmamini1			0x005D1EDF
 
 #endif

@@ -19,6 +19,7 @@
 #define addr_fuse_loader						0x494970
 #define addr_devact_onioctl_hook				0x638630
 #define addr_dipsw_onioctl_hook					0x0
+#define addr_dmamini_initialize_ioctl			0x5CF7C0
 #define addr_trapHook                           0x0
 #define addr_trap_fatalHook                     0x3C60A0
 #define addr_QAFlags							0x0
@@ -182,5 +183,7 @@
 #define patch_AllowSLDebugger	0x003CA4A0
 #define patch_AllowULDebugger	0x003CA7A0
 #define patch_IsSoftwagner		0x003CA880
+#define patch_dmamini0			0x005CF7DB
+#define patch_dmamini1			0x005CF7DF
 
 #endif
