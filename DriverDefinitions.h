@@ -45,14 +45,12 @@ enum FusionDriverCommands
     /* ######## Proc Commands ####### */
     CMD_PROC_JAILBREAK,
     CMD_PROC_JAIL, 
-    CMD_PROC_INFO,
-    CMD_PROC_MODULE_LIST,
-    CMD_PROC_READ_WRITE_MEMORY,
     CMD_PROC_ALLOC_MEMORY,
     CMD_PROC_FREE_MEMORY,
     CMD_PROC_START_THREAD,
     CMD_PROC_RESOLVE,
-    CMD_PROC_SANDBOX_PATH,
+	CMD_PROC_GET_AUTHID,
+	CMD_PROC_SET_AUTHID,
     /* ############################## */
 
     /* ###### Kernel Commands ####### */
@@ -64,77 +62,14 @@ enum FusionDriverCommands
 /* ###### FusionDriver Commands ###### */
 struct FusionDriverInfo
 {
-    int(*Shutdown)();
-    void* ELFBase;
-    int Size;
+	int MajorVersion;
+	int MinorVersion;
+	int BuildVersion;
 };
 
 #define FUSION_DRIVERINFO _IOC(IOC_OUT, 'D', (uint32_t)(CMD_FUSIONDRIVER_INFO), sizeof(struct FusionDriverInfo))
 
-
-/* 
-######## Proc Commands ####### 
-*/
-
-struct ThreadInfo
-{
-    int ThreadId;
-    char Name[36];
-    int Errno;
-    int RetVal;
-};
-
-struct ProcInfoExt
-{
-    int ProcessId;
-    int Attached;
-    int Signal;
-    int Code;
-    int Stops;
-    int StopType;
-    char ProcName[32];
-    char TitleId[10];
-    char ElfPath[1024];
-    char RandomizedPath[256];
-    uint64_t TextSegmentBase;
-    uint64_t TextSegmentLen;
-    uint64_t DataSegmentBase;
-    uint64_t DataSegmentLen;
-};
-
-struct Input_ProcInfo
-{
-    int ProcessId;
-    struct ProcInfoExt* Output;
-};
-
-struct OrbisLibraryInfo
-{
-    uint32_t Handle;
-    char Path[256];
-    uint64_t MapBase;
-    size_t MapSize;
-    size_t TextSize;
-    uint64_t DataBase;
-    size_t DataSize;
-};
-
-struct Input_LibraryList
-{
-    int ProcessId;
-    struct OrbisLibraryInfo* LibraryListOut;
-    int* LibraryCount;
-};
-
-struct Input_ReadWriteMemory
-{
-    int ProcessId;
-    uint64_t ProcessAddress;
-    void* DataAddress;
-    size_t Length;
-    bool IsWrite;
-};
-
+/* ######## Proc Commands ####### */
 struct Input_AllocMemory
 {
     int ProcessId;
@@ -162,8 +97,10 @@ struct Input_StartThreadInfo
 struct Input_ResolveInfo
 {
     int ProcessId;
-    int handle;
-    char Symbol[4096];
+    int Handle;
+	char Library[256];
+    char Symbol[2560];
+    unsigned int Flags;
     uint64_t* Result;
 };
 
@@ -197,23 +134,20 @@ struct Input_RestoreJail
     struct JailBackup Jail;
 };
 
-struct Input_SandboxPath
+struct Input_AuthId
 {
     int ProcessId;
-    char* Buffer;
-    size_t BufferSize;
+    uint64_t AuthId;
 };
 
-#define PROC_INFO _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_INFO), sizeof(struct Input_ProcInfo))
-#define PROC_MODULE_LIST _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_MODULE_LIST), sizeof(struct Input_LibraryList))
-#define PROC_READ_WRITE_MEMORY _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_READ_WRITE_MEMORY), sizeof(struct Input_ReadWriteMemory))
+#define PROC_JAILBREAK _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_JAILBREAK), sizeof(struct Input_Jailbreak))
+#define PROC_JAIL _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_JAIL), sizeof(struct Input_RestoreJail))
 #define PROC_ALLOCATE_MEMORY _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_ALLOC_MEMORY), sizeof(struct Input_AllocMemory))
 #define PROC_FREE_MEMORY _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_FREE_MEMORY), sizeof(struct Input_FreeMemory))
 #define PROC_START_THREAD _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_START_THREAD), sizeof(struct Input_StartThreadInfo))
 #define PROC_RESOLVE _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_RESOLVE), sizeof(struct Input_ResolveInfo))
-#define PROC_JAILBREAK _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_JAILBREAK), sizeof(struct Input_Jailbreak))
-#define PROC_JAIL _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_JAIL), sizeof(struct Input_RestoreJail))
-#define PROC_SANDBOX_PATH _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_SANDBOX_PATH), sizeof(struct Input_SandboxPath))
+#define PROC_GET_AUTHID _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_GET_AUTHID), sizeof(struct Input_AuthId))
+#define PROC_SET_AUTHID _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_SET_AUTHID), sizeof(struct Input_AuthId))
 
 /* ###### Kernel Commands ####### */
 #define KERN_READ_WRITE_MEMORY _IOC(IOC_INOUT, 'K', (uint32_t)(CMD_KERN_READ_WRITE_MEMORY), sizeof(struct Input_ReadWriteMemory))
