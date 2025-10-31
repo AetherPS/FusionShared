@@ -44,32 +44,68 @@ enum FusionDriverCommands
 
     /* ######## Proc Commands ####### */
     CMD_PROC_JAILBREAK,
-    CMD_PROC_JAIL, 
+    CMD_PROC_JAIL,
+    CMD_PROC_READ_WRITE_MEMORY = 5,
     CMD_PROC_ALLOC_MEMORY,
     CMD_PROC_FREE_MEMORY,
     CMD_PROC_START_THREAD,
     CMD_PROC_RESOLVE,
-	CMD_PROC_GET_AUTHID,
+	CMD_PROC_GET_AUTHID = 11,
 	CMD_PROC_SET_AUTHID,
     /* ############################## */
 
     /* ###### Kernel Commands ####### */
-    CMD_KERN_GET_BASE,
+    CMD_KERN_GET_BASE = 20,
     CMD_KERN_READ_WRITE_MEMORY,
     /* ############################## */
 };
 
-/* ###### FusionDriver Commands ###### */
 struct FusionDriverInfo
 {
-	int MajorVersion;
-	int MinorVersion;
-	int BuildVersion;
+    int MajorVersion;
+    int MinorVersion;
+    int BuildVersion;
 };
 
-#define FUSION_DRIVERINFO _IOC(IOC_OUT, 'D', (uint32_t)(CMD_FUSIONDRIVER_INFO), sizeof(struct FusionDriverInfo))
+struct JailBackup
+{
+    uint32_t cr_uid;
+    uint32_t cr_ruid;
+    uint32_t cr_rgid;
+    uint64_t cr_groups;
+    uint64_t cr_sceAuthID;
+    uint64_t cr_sceCaps[2];
+    void* cr_prison;
 
-/* ######## Proc Commands ####### */
+    void* fd_jdir;
+    void* fd_rdir;
+
+    char RandomizedPath[0x100];
+};
+
+struct Input_Jailbreak
+{
+    int ProcessId;
+    struct JailBackup* Jail;
+    uint64_t AuthId;
+    bool NullRandPath;
+};
+
+struct Input_RestoreJail
+{
+    int ProcessId;
+    struct JailBackup Jail;
+};
+
+struct Input_ReadWriteMemory
+{
+    int ProcessId;
+    uint64_t ProcessAddress;
+    void* DataAddress;
+    size_t Length;
+    bool IsWrite;
+};
+
 struct Input_AllocMemory
 {
     int ProcessId;
@@ -98,40 +134,10 @@ struct Input_ResolveInfo
 {
     int ProcessId;
     int Handle;
-	char Library[256];
-    char Symbol[2560];
+    char Library[256];
+    char Symbol[4096];
     unsigned int Flags;
     uint64_t* Result;
-};
-
-struct JailBackup
-{
-    uint32_t cr_uid;
-    uint32_t cr_ruid;
-    uint32_t cr_rgid;
-    uint64_t cr_groups;
-    uint64_t cr_sceAuthID;
-    uint64_t cr_sceCaps[2];
-    void* cr_prison;
-
-    void* fd_jdir;
-    void* fd_rdir;
-    
-    char RandomizedPath[0x100];
-};
-
-struct Input_Jailbreak
-{
-    int ProcessId;
-    struct JailBackup* Jail;
-    uint64_t AuthId;
-    bool NullRandPath;
-};
-
-struct Input_RestoreJail
-{
-    int ProcessId;
-    struct JailBackup Jail;
 };
 
 struct Input_AuthId
@@ -140,8 +146,13 @@ struct Input_AuthId
     uint64_t AuthId;
 };
 
+/* ###### FusionDriver Commands ###### */
+#define FUSION_DRIVERINFO _IOC(IOC_OUT, 'D', (uint32_t)(CMD_FUSIONDRIVER_INFO), sizeof(struct FusionDriverInfo))
+
+/* ######## Proc Commands ####### */
 #define PROC_JAILBREAK _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_JAILBREAK), sizeof(struct Input_Jailbreak))
 #define PROC_JAIL _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_JAIL), sizeof(struct Input_RestoreJail))
+#define PROC_READ_WRITE_MEMORY _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_READ_WRITE_MEMORY), sizeof(struct Input_ReadWriteMemory))
 #define PROC_ALLOCATE_MEMORY _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_ALLOC_MEMORY), sizeof(struct Input_AllocMemory))
 #define PROC_FREE_MEMORY _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_FREE_MEMORY), sizeof(struct Input_FreeMemory))
 #define PROC_START_THREAD _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_START_THREAD), sizeof(struct Input_StartThreadInfo))
