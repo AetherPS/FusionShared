@@ -45,7 +45,8 @@ enum FusionDriverCommands
     /* ######## Proc Commands ####### */
     CMD_PROC_JAILBREAK,
     CMD_PROC_JAIL,
-    CMD_PROC_READ_WRITE_MEMORY = 5,
+    CMD_PROC_MODULE_LIST = 4,
+    CMD_PROC_READ_WRITE_MEMORY,
     CMD_PROC_ALLOC_MEMORY,
     CMD_PROC_FREE_MEMORY,
     CMD_PROC_START_THREAD,
@@ -95,6 +96,24 @@ struct Input_RestoreJail
 {
     int ProcessId;
     struct JailBackup Jail;
+};
+
+struct OrbisLibraryInfo
+{
+    uint32_t Handle;
+    char Path[256];
+    uint64_t MapBase;
+    size_t MapSize;
+    size_t TextSize;
+    uint64_t DataBase;
+    size_t DataSize;
+};
+
+struct Input_LibraryList
+{
+    int ProcessId;
+    struct OrbisLibraryInfo* LibraryListOut;
+    int* LibraryCount;
 };
 
 struct Input_ReadWriteMemory
