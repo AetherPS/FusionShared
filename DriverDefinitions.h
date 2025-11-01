@@ -113,6 +113,7 @@ struct Input_LibraryList
 {
     int ProcessId;
     struct OrbisLibraryInfo* LibraryListOut;
+    int MaxOutCount;
     int* LibraryCount;
 };
 
