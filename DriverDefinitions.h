@@ -171,6 +171,7 @@ struct Input_AuthId
 /* ######## Proc Commands ####### */
 #define PROC_JAILBREAK _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_JAILBREAK), sizeof(struct Input_Jailbreak))
 #define PROC_JAIL _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_JAIL), sizeof(struct Input_RestoreJail))
+#define PROC_MODULE_LIST _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_MODULE_LIST), sizeof(struct Input_LibraryList))
 #define PROC_READ_WRITE_MEMORY _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_READ_WRITE_MEMORY), sizeof(struct Input_ReadWriteMemory))
 #define PROC_ALLOCATE_MEMORY _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_ALLOC_MEMORY), sizeof(struct Input_AllocMemory))
 #define PROC_FREE_MEMORY _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_FREE_MEMORY), sizeof(struct Input_FreeMemory))
