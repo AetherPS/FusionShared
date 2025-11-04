@@ -157,7 +157,7 @@ struct Input_ResolveInfo
     char Library[256];
     char Symbol[4096];
     unsigned int Flags;
-    uint64_t* Result;
+    uint64_t Address;
 };
 
 struct Input_AuthId
