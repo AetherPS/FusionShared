@@ -1,39 +1,9 @@
 #pragma once
 
-#if defined(__cplusplus)
-extern "C" {
-#endif
-
-/*
- * Ioctl's have the command encoded in the lower word, and the size of
- * any in or out parameters in the upper word.  The high 3 bits of the
- * upper word are used to encode the in/out status of the parameter.
- */
-#define	IOCPARM_SHIFT	13		/* number of bits for ioctl size */
-#define	IOCPARM_MASK	((1 << IOCPARM_SHIFT) - 1) /* parameter length mask */
-#define	IOCPARM_LEN(x)	(((x) >> 16) & IOCPARM_MASK)
-#define	IOCBASECMD(x)	((x) & ~(IOCPARM_MASK << 16))
-#define	IOCGROUP(x)	(((x) >> 8) & 0xff)
-#define IOCTL_NUM(cmd) ((cmd) & 0xFF) // Extracting the lower 8 bits
-
-#define	IOCPARM_MAX	(1 << IOCPARM_SHIFT) /* max size of ioctl */
-#define	IOC_VOID	0x20000000	/* no parameters */
-#define	IOC_OUT		0x40000000	/* copy out parameters */
-#define	IOC_IN		0x80000000	/* copy in parameters */
-#define	IOC_INOUT	(IOC_IN|IOC_OUT)
-#define	IOC_DIRMASK	(IOC_VOID|IOC_OUT|IOC_IN)
-
-#define	_IOC(inout,group,num,len)	((unsigned long) \
-	((inout) | (((len) & IOCPARM_MASK) << 16) | ((group) << 8) | (num)))
-#define	_IO(g,n)	_IOC(IOC_VOID,	(g), (n), 0)
-#define	_IOWINT(g,n)	_IOC(IOC_VOID,	(g), (n), sizeof(int))
-#define	_IOR(g,n,t)	_IOC(IOC_OUT,	(g), (n), sizeof(t))
-#define	_IOW(g,n,t)	_IOC(IOC_IN,	(g), (n), sizeof(t))
- /* this should be _IORW, but stdio got there first */
-#define	_IOWR(g,n,t)	_IOC(IOC_INOUT,	(g), (n), sizeof(t))
-
-#if defined(__cplusplus)
-};
+#ifdef __ORBIS__
+#include <sys/ioccom.h>
+#else
+#include <Types/ioccom.h>
 #endif
 
 enum FusionDriverCommands
@@ -58,6 +28,7 @@ enum FusionDriverCommands
     /* ###### Kernel Commands ####### */
     CMD_KERN_GET_BASE = 20,
     CMD_KERN_READ_WRITE_MEMORY,
+    CMD_KERN_ICC_NVS_READ_WRITE,
     /* ############################## */
 };
 
@@ -166,6 +137,20 @@ struct Input_AuthId
     uint64_t AuthId;
 };
 
+struct InputKernelBase
+{
+    uint64_t KernelBase;
+};
+
+struct Input_IccNvsReadWrite
+{
+    uint32_t Block;
+    uint32_t Offset;
+    uint32_t Size;
+    uint8_t* Value;
+    bool IsWrite;
+};
+
 /* ###### FusionDriver Commands ###### */
 #define FUSION_DRIVERINFO _IOC(IOC_OUT, 'D', (uint32_t)(CMD_FUSIONDRIVER_INFO), sizeof(struct FusionDriverInfo))
 
@@ -182,4 +167,6 @@ struct Input_AuthId
 #define PROC_SET_AUTHID _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_SET_AUTHID), sizeof(struct Input_AuthId))
 
 /* ###### Kernel Commands ####### */
+#define KERN_GET_BASE _IOC(IOC_OUT, 'K', (uint32_t)(CMD_KERN_GET_BASE), sizeof(InputKernelBase))
 #define KERN_READ_WRITE_MEMORY _IOC(IOC_INOUT, 'K', (uint32_t)(CMD_KERN_READ_WRITE_MEMORY), sizeof(struct Input_ReadWriteMemory))
+#define KERN_ICC_NVS_READ_WRITE _IOC(IOC_INOUT, 'K', (uint32_t)(CMD_KERN_ICC_NVS_READ_WRITE), sizeof(struct Input_IccNvsReadWrite))
