@@ -167,6 +167,6 @@ struct Input_IccNvsReadWrite
 #define PROC_SET_AUTHID _IOC(IOC_INOUT, 'P', (uint32_t)(CMD_PROC_SET_AUTHID), sizeof(struct Input_AuthId))
 
 /* ###### Kernel Commands ####### */
-#define KERN_GET_BASE _IOC(IOC_OUT, 'K', (uint32_t)(CMD_KERN_GET_BASE), sizeof(InputKernelBase))
+#define KERN_GET_BASE _IOC(IOC_OUT, 'K', (uint32_t)(CMD_KERN_GET_BASE), sizeof(Input_KernelBase))
 #define KERN_READ_WRITE_MEMORY _IOC(IOC_INOUT, 'K', (uint32_t)(CMD_KERN_READ_WRITE_MEMORY), sizeof(struct Input_ReadWriteMemory))
 #define KERN_ICC_NVS_READ_WRITE _IOC(IOC_INOUT, 'K', (uint32_t)(CMD_KERN_ICC_NVS_READ_WRITE), sizeof(struct Input_IccNvsReadWrite))
