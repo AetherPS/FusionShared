@@ -137,7 +137,7 @@ struct Input_AuthId
     uint64_t AuthId;
 };
 
-struct InputKernelBase
+struct Input_KernelBase
 {
     uint64_t KernelBase;
 };
