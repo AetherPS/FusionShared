@@ -3,6 +3,10 @@
 #ifdef __ORBIS__
 #include <sys/ioccom.h>
 #else
+#ifdef _OOSDK
+#include <bits/ioctl.h>
+#endif
+#ifdef _KERNEL
 #include <Types/ioccom.h>
 #endif
 
