@@ -2,7 +2,7 @@
 
 #ifdef __ORBIS__
 #include <sys/ioccom.h>
-#else
+#endif
 #ifdef _OOSDK
 #include <bits/ioctl.h>
 #endif
