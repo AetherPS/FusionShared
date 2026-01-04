@@ -9,6 +9,9 @@
 #ifdef _KERNEL
 #include <Types/ioccom.h>
 #endif
+#ifdef _LOADER
+#include <Types/ioccom.h>
+#endif
 
 enum FusionDriverCommands
 {
